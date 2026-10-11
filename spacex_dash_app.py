@@ -1,4 +1,5 @@
 # Import required libraries
+from pathlib import Path
 import pandas as pd
 import dash
 from dash import html
@@ -7,7 +8,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 # Read the spacex data into pandas dataframe
-spacex_df = pd.read_csv("spacex_launch_dash.csv")
+spacex_df = pd.read_csv(Path(__file__).resolve().with_name("spacex_launch_dash.csv"))
 max_payload = spacex_df['Payload Mass (kg)'].max()
 min_payload = spacex_df['Payload Mass (kg)'].min()
 
@@ -45,8 +46,8 @@ app.layout = html.Div(children=[
     # TASK 3: Add a slider to select payload range
     dcc.RangeSlider(
         id='payload-slider',
-        min=0,
-        max=10000,
+        min=float(min_payload),
+        max=float(max_payload),
         step=1000,
         marks={0: '0', 1000: '1000', 2000: '2000', 3000: '3000', 4000: '4000', 
                5000: '5000', 6000: '6000', 7000: '7000', 8000: '8000', 
@@ -117,4 +118,4 @@ def get_scatter_chart(entered_site, payload_range):
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

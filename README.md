@@ -1,173 +1,86 @@
-# SpaceX Falcon 9 First-Stage Landing Prediction
+# Falcon 9 Landing Prediction
 
-**Author:** Mayank Raj  
-**Date:** 26 August 2026
+**An IBM Applied Data Science capstone by Mayank Raj**
 
-## Project Overview
+Analyze historical Falcon 9 missions, explore the factors associated with first-stage landing outcomes, and compare four classification models. This repository includes the notebooks, datasets, interactive dashboard, maps, and original presentation.
 
-This project analyzes SpaceX Falcon 9 launch records to understand the factors associated with successful first-stage landings and to build a classification model that predicts landing success.
+**Python · pandas · SQL · BeautifulSoup · Folium · Plotly Dash · scikit-learn**
 
-The project follows a complete data-science workflow:
+[My portfolio](https://mayank-raj-the-series.adoredteal16.chatgpt.site) · [Launch-site map](spacex_map.html) · [Original presentation](<ds-capstone-template-coursera (1).pptx>)
 
-1. Collect launch data from the SpaceX REST API.
-2. Clean and prepare the data.
-3. Explore launch patterns using visualization and SQL.
-4. Build geographic analysis with Folium.
-5. Create an interactive dashboard with Plotly Dash.
-6. Train, tune, and evaluate classification models.
+![Dashboard with launch-site and payload filters](<127.0.0.1_8050_.png>)
 
-## Business Question
+## The question
 
-Can historical launch information be used to predict whether the Falcon 9 first stage will land successfully?
+Which patterns in historical launch information are associated with successful first-stage landings? Booster recovery provides useful context for launch economics, but this analysis does not calculate launch costs or support operational launch decisions.
 
-This question is useful because booster recovery and reuse are important factors in SpaceX launch economics. Predicting landing success can support launch-risk analysis and operational planning.
+## What the project demonstrates
 
-## Data Sources
+- Collecting SpaceX launch records through REST APIs and a Wikipedia scraping notebook.
+- Cleaning data and creating binary landing labels and modelling features.
+- Exploring payload, orbit, launch-site and time patterns with SQL and charts.
+- Mapping launch sites and landing outcomes with Folium.
+- Filtering launch records in a Dash application.
+- Comparing Logistic Regression, SVM, Decision Tree and KNN with GridSearchCV.
 
-The analysis uses the course-backed SpaceX datasets referenced by the supplied notebooks:
+## Reported results and interpretation
 
-- `dataset_part_1.csv`
-- `dataset_part_2.csv`
-- `dataset_part_3.csv`
-- `Spacex.csv`
-- `spacex_launch_geo.csv`
+The capstone uses approximately **90 missions from 2010–2020**, with an 80/20 train/test split. Its original notebook and presentation report:
 
-The main modelling dataset contains **90 Falcon 9 missions** from **2010 through 2020**.
-
-## Included Source Files
-
-- `jupyter-labs-spacex-data-collection-api_1787723530695.ipynb` — SpaceX API data collection
-- `labs-jupyter-spacex-Data_wrangling_1787723530692.ipynb` — cleaning, transformation, and landing-class creation
-- `edadataviz_1787723530694.ipynb` — exploratory data visualization
-- `jupyter-labs-eda-sql-coursera_sqllite_1787723530694.ipynb` — SQL analysis
-- `lab_jupyter_launch_site_location_1787723530695.ipynb` — Folium map and proximity analysis
-- `spacex_dash_app_1787723530693.py` — Plotly Dash dashboard
-- `SpaceX_Machine_Learning_Prediction_Part_5_1787723530693.ipynb` — classification modelling
-
-## Methodology
-
-### Data Collection
-
-The API workflow uses the SpaceX past-launches endpoint and helper requests for:
-
-- Rocket and booster details
-- Launch-site names and coordinates
-- Payload mass and orbit
-- Core reuse and landing outcomes
-
-Nested JSON responses are normalized into tabular data for analysis.
-
-No separate web-scraping notebook was provided or used. The project uses structured API data and course-backed extracts instead of inventing web-scraping results.
-
-### Data Wrangling
-
-The data preparation process includes:
-
-- Filtering for Falcon 9 launches
-- Inspecting missing values
-- Preserving relevant numerical and categorical features
-- Creating the target variable:
-  - `Class = 1`: successful landing
-  - `Class = 0`: unsuccessful landing
-- Extracting launch years
-- Creating one-hot encoded modelling features
-
-### Exploratory Data Analysis
-
-The visual analysis covers:
-
-- Flight number versus launch site
-- Payload mass versus launch site
-- Success rate by orbit type
-- Flight number versus orbit type
-- Payload mass versus orbit type
-- Yearly landing-success trends
-
-### SQL Analysis
-
-The SQL section examines:
-
-- Unique launch sites
-- Launch sites beginning with `CCA`
-- NASA CRS payload totals
-- Average payload for F9 v1.1
-- First successful ground landing
-- Successful drone-ship landings within a payload range
-- Mission-outcome counts
-- Maximum payload records
-- Failed drone-ship landings in 2015
-- Ranked landing outcomes between 2010-06-04 and 2017-03-20
-
-### Interactive Analytics
-
-The Folium analysis includes:
-
-- Launch-site markers
-- Clustered launch records
-- Color-coded landing outcomes
-- Distance lines and labels for nearby coastline and railway points
-
-The Plotly Dash dashboard includes:
-
-- Launch-site dropdown selection
-- Success pie charts
-- Payload-range slider
-- Payload-versus-outcome scatter plot
-
-### Predictive Modelling
-
-Four classification models were tuned with 10-fold cross-validation:
-
-- Logistic Regression
-- Support Vector Machine
-- Decision Tree
-- K-Nearest Neighbors
-
-The data was standardized and split into training and test sets using an 80/20 split with `random_state=2`.
-
-## Key Results
-
-- Total missions analyzed: **90**
-- Successful landings: **60**
-- Overall landing success rate: **66.7%**
-- Highest launch-site success rate: **KSC LC 39A**
-- KSC LC 39A success rate: **77.3%** — 17 successful landings out of 22
-- Largest high-volume orbit group: **GTO**, with 27 launches
-- GTO success rate: **51.9%**
-- First successful ground landing in the SQL dataset: **2015-12-22**
-- Total NASA CRS payload in the SQL dataset: **48,213 kg**
-- Average F9 v1.1 payload: **2,928.4 kg**
-
-## Model Results
-
-The supplied prediction notebook reports the following held-out test accuracy:
-
-| Model | Test Accuracy |
-|---|---:|
+| Model | Reported test accuracy |
+| :--- | ---: |
 | Logistic Regression | 83.3% |
-| SVM | 83.3% |
+| Support Vector Machine | 83.3% |
 | Decision Tree | 83.3% |
-| KNN | 83.3% |
+| K-Nearest Neighbors | 83.3% |
 
-The notebook identifies **Logistic Regression** as the selected model because it appears first among the tied test results.
+The reported confusion matrix has 12 true positives, 3 true negatives, 3 false positives and no false negatives. These are historical results from the supplied course workflow, rather than a newly reproduced benchmark.
 
-Its confusion matrix contains:
+**Validation limits:** the test set contains only 18 missions. The original notebook fits its scaler before the train/test split, creating a leakage risk. A stronger follow-up should fit preprocessing inside a cross-validation pipeline, compare a baseline, report precision/recall, and assess later launches with a chronological holdout. The four tied test scores do not establish one model as consistently best.
 
-- 3 correctly identified non-landings
-- 3 non-landings predicted as landings
-- 12 correctly identified successful landings
-- 0 successful landings missed in the supplied test split
+## Run the dashboard locally
 
-Because the test set contains only 18 records, these results should be treated as a benchmark rather than a production launch-decision system.
+Use Python 3.12. From this repository:
 
-## Final Deliverable
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe spacex_dash_app.py
+```
 
-The completed presentation is:
+Open the local address printed by Dash, normally `http://127.0.0.1:8050`. Choose a launch site and payload range. The CSV is resolved relative to the application file, so launching from another folder also works.
 
-`Mayank_Raj_SpaceX_Capstone_Completed.pptx`
+The dashboard uses `spacex_launch_dash.csv`; its subset differs from the 90-record modelling dataset. Its charts show the supplied observations, not a live SpaceX feed. The all-site pie shows successful landing counts by site, rather than each site's success rate.
 
-The presentation contains 47 slides covering the full project workflow, analysis results, interactive-analysis visuals, predictive modelling, conclusions, and appendix.
+## Follow the analysis
 
-## Conclusion
+| Step | File |
+| :--- | :--- |
+| API collection | [Data collection notebook](jupyter-labs-spacex-data-collection-api.ipynb) |
+| Web scraping | [Wikipedia scraping notebook](jupyter-labs-webscraping.ipynb) |
+| Wrangling | [Preparation notebook](<labs-jupyter-spacex-Data wrangling.ipynb>) |
+| Visual exploration | [EDA notebook](edadataviz.ipynb) |
+| SQL | [SQLite notebook](jupyter-labs-eda-sql-coursera_sqllite.ipynb) |
+| Geography | [Launch-site notebook](lab_jupyter_launch_site_location.ipynb) |
+| Modelling | [Prediction notebook](<SpaceX_Machine Learning Prediction_Part_5.ipynb>) |
+| Dashboard | [Dash application](spacex_dash_app.py) |
 
-The analysis indicates that landing success improved substantially as SpaceX gained operational experience. Launch site, orbit, payload, hardware, and time-related features all provide useful context. The classification models achieve a promising benchmark accuracy, but additional historical data and stronger validation would be required before using the model for operational decisions.
+Some notebooks retain IBM Skills Network / JupyterLite helpers such as `piplite` and browser `js.fetch`. They are preserved as course artifacts and may need adaptation for a normal local Jupyter kernel. Network collection cells depend on the original external endpoints. The dashboard installation above is independently runnable; it does not promise all notebooks will run unchanged offline.
+
+![Launch geography and recorded outcomes](<ALL LAUNCH SITE.png>)
+
+## Data and attribution
+
+Local CSVs include `dataset_part_1.csv`, `dataset_part_2.csv`, `dataset_part_3.csv`, `spacex_web_scraped.csv`, and `spacex_launch_dash.csv`. Collection methods and upstream course URLs are retained in the notebooks. This is educational work completed as part of the IBM Applied Data Science capstone; source data and course materials retain their respective ownership.
+
+## Check the dashboard changes
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+The checks exercise site/payload filters, an empty selection, and the dashboard HTTP response. They do not rerun the original model benchmark.
+
+## Author
+
+Mayank Raj · [LinkedIn](https://www.linkedin.com/in/mayankraj-data-science/) · [Portfolio](https://mayank-raj-the-series.adoredteal16.chatgpt.site)
