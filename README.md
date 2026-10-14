@@ -25,6 +25,21 @@ Which patterns in historical launch information are associated with successful f
 
 ## Reported results and interpretation
 
+### Updated chronological validation
+
+The original course scores below are retained as historical results. For the new
+analysis, run `python model_validation.py` after installing
+`requirements-model-lock.txt`. It trains on earlier missions and holds out later
+missions, fits preprocessing within training folds, compares a majority baseline,
+and reports precision, recall, F1 and balanced accuracy. The saved, globally
+imputed payload column is excluded. Model choice uses training cross-validation.
+
+See [the new report](reports/validation/REPORT.md),
+[all metrics and fold details](reports/validation/metrics.json), and
+[every held-out prediction](reports/validation/holdout_predictions.csv).
+
+![Chronological holdout comparison](reports/validation/holdout-comparison.svg)
+
 The capstone uses approximately **90 missions from 2010–2020**, with an 80/20 train/test split. Its original notebook and presentation report:
 
 | Model | Reported test accuracy |
@@ -76,10 +91,15 @@ Local CSVs include `dataset_part_1.csv`, `dataset_part_2.csv`, `dataset_part_3.c
 ## Check the dashboard changes
 
 ```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-model-lock.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe model_validation.py
 ```
 
-The checks exercise site/payload filters, an empty selection, and the dashboard HTTP response. They do not rerun the original model benchmark.
+The checks exercise dashboard filters and the HTTP response, strict separation of
+training and later holdout dates, training-only scaler fitting, and baseline
+metrics. The model script reruns the new chronological analysis; it does not
+reproduce the original random-split course benchmark.
 
 ## Author
 

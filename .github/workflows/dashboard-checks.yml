@@ -1,9 +1,9 @@
-name: Dashboard checks
+name: Falcon validation checks
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
-  dashboard:
+  validation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -11,5 +11,10 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
-      - run: python -m pip install -r requirements-lock.txt
+      - run: python -m pip install -r requirements-model-lock.txt
       - run: python -m unittest discover -s tests -v
+      - run: python model_validation.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: falcon-validation-report
+          path: reports/validation/
