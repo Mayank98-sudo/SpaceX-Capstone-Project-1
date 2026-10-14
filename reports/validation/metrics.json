@@ -1,0 +1,136 @@
+{
+  "source_sha256": "4705cd74f8f28370bd58ea31719b84490fd3eaa996ca72856323718441e381e8",
+  "versions": {
+    "python": "3.12.15",
+    "sklearn": "1.9.1",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  },
+  "features": [
+    "FlightNumber",
+    "GridFins",
+    "Reused",
+    "Legs",
+    "Block",
+    "Orbit",
+    "LaunchSite"
+  ],
+  "selected_by_training_cv": "Decision Tree",
+  "rows": 90,
+  "training_rows": 72,
+  "test_rows": 18,
+  "train_start": "2010-06-04",
+  "train_end": "2020-01-07",
+  "test_start": "2020-01-19",
+  "test_end": "2020-11-05",
+  "test_successes": 15,
+  "folds": [
+    {
+      "train_count": 18,
+      "validation_count": 18,
+      "train_end": "2016-01-17",
+      "validation_start": "2016-03-04",
+      "validation_end": "2017-08-14",
+      "validation_success_count": 13
+    },
+    {
+      "train_count": 36,
+      "validation_count": 18,
+      "train_end": "2017-08-14",
+      "validation_start": "2017-08-24",
+      "validation_end": "2018-07-25",
+      "validation_success_count": 13
+    },
+    {
+      "train_count": 54,
+      "validation_count": 18,
+      "train_end": "2018-07-25",
+      "validation_start": "2018-08-07",
+      "validation_end": "2020-01-07",
+      "validation_success_count": 15
+    }
+  ],
+  "results": [
+    {
+      "model": "Majority baseline",
+      "cv_balanced_accuracy": 0.5,
+      "parameters": {},
+      "accuracy": 0.8333333333333334,
+      "balanced_accuracy": 0.5,
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091,
+      "tn": 0,
+      "fp": 3,
+      "fn": 0,
+      "tp": 15
+    },
+    {
+      "model": "Logistic Regression",
+      "cv_balanced_accuracy": 0.611111111111111,
+      "parameters": {
+        "model__C": 0.1
+      },
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.6666666666666666,
+      "precision": 0.8823529411764706,
+      "recall": 1.0,
+      "f1": 0.9375,
+      "tn": 1,
+      "fp": 2,
+      "fn": 0,
+      "tp": 15
+    },
+    {
+      "model": "SVM",
+      "cv_balanced_accuracy": 0.6649572649572649,
+      "parameters": {
+        "model__C": 0.1,
+        "model__kernel": "linear"
+      },
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.6666666666666666,
+      "precision": 0.8823529411764706,
+      "recall": 1.0,
+      "f1": 0.9375,
+      "tn": 1,
+      "fp": 2,
+      "fn": 0,
+      "tp": 15
+    },
+    {
+      "model": "Decision Tree",
+      "cv_balanced_accuracy": 0.7008547008547009,
+      "parameters": {
+        "model__max_depth": 3,
+        "model__min_samples_leaf": 1
+      },
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.6666666666666666,
+      "precision": 0.8823529411764706,
+      "recall": 1.0,
+      "f1": 0.9375,
+      "tn": 1,
+      "fp": 2,
+      "fn": 0,
+      "tp": 15
+    },
+    {
+      "model": "KNN",
+      "cv_balanced_accuracy": 0.6777777777777777,
+      "parameters": {
+        "model__n_neighbors": 5,
+        "model__weights": "uniform"
+      },
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.6666666666666666,
+      "precision": 0.8823529411764706,
+      "recall": 1.0,
+      "f1": 0.9375,
+      "tn": 1,
+      "fp": 2,
+      "fn": 0,
+      "tp": 15
+    }
+  ]
+}
